@@ -23,5 +23,8 @@ jobs:
             https://builds.hex.pm
             https://cdn.jsdelivr.net/hex
           elixir-version: '1.19.3'
+      - run: mix deps.get
+      - run: mix deps.compile
       - run: mix format
+
 
