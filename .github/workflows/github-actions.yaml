@@ -13,6 +13,7 @@ jobs:
     name: check-test
     runs-on: ubuntu-latest
     services:
+      container: node:latest
       postgres:
         image: postgres:latest
         ports:
