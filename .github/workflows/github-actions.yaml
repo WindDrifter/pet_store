@@ -1,0 +1,39 @@
+name: tests
+run-name: ensure main code quality
+on: 
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-test:
+    name: check-test
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        ports:
+          - 5432:5434
+        env:
+          POSTGRES_PASSWORD: postgres
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up elixir
+        uses: actions/setup-elixir@v1
+        with:
+          elixir-version: '1.19.3'
+          otp-version: '28.1.1'
+      - run: mix deps.get
+      - run: mix deps.compile
+      - run: mix ecto.create
+      - run: mix ecto.migrate
+      - run: cd assets && yarn install --frozen-lockfile
+      - run: mix test
+        env:
+          # this is for testing with postgres
+          DB_PASSWORD: postgres
+          DB_HOST: postgres
