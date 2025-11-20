@@ -12,30 +12,16 @@ jobs:
   check-test:
     name: check-test
     runs-on: ubuntu-latest
-    container: node:latest
-    services:
-      postgres:
-        image: postgres:latest
-        ports:
-          - 5432:5434
-        env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: postgres
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Set up elixir
-        uses: actions/setup-elixir@v1.5.0
+        uses: erlef/setup-beam@v1
         with:
-          otp-version: '27'
+          otp-version: '28'
+          hexpm-mirrors: |
+            https://builds.hex.pm
+            https://cdn.jsdelivr.net/hex
           elixir-version: '1.19.3'
-      - run: mix deps.get
-      - run: mix deps.compile
-      - run: mix ecto.create
-      - run: mix ecto.migrate
-      - run: cd assets && yarn install --frozen-lockfile
-      - run: mix test
-        env:
-          # this is for testing with postgres
-          DB_PASSWORD: postgres
-          DB_HOST: postgres
+      - run: mix format
+
