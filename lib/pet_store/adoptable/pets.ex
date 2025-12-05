@@ -10,8 +10,11 @@ defmodule PetStore.Adoptable.Pets do
     field :age, :integer
     field :animal_breed, :string
     field :in_cafe, :boolean, default: false
+    field :birth_date, :utc_datetime
+    field :animal_breed, :string
     field :ready_to_adopt, :boolean, default: false
-
+    field :description, :string
+    field :adopted, :boolean, default: false, null: false
     timestamps(type: :utc_datetime)
   end
 
@@ -20,5 +23,13 @@ defmodule PetStore.Adoptable.Pets do
     pets
     |> cast(attrs, [:animal_type, :name, :gender, :nurtered, :age, :animal_breed, :in_cafe, :ready_to_adopt])
     |> validate_required([:animal_type, :name, :gender, :nurtered, :age, :animal_breed, :in_cafe, :ready_to_adopt])
+  end
+
+  def get_adoptable_pets(limit \\ 10) do
+    PetStore.Repo.all(from p in __MODULE__, where: p.ready_to_adopt == true and p.adopted == false, limit: ^limit)
+  end
+
+  def get_adoptable_pet_by_animal_type(animal_type, limit \\ 10, offset \\ 0) do
+    PetStore.Repo.all(from p in __MODULE__, where: p.animal_type == ^animal_type and p.ready_to_adopt == true and p.adopted == false, limit: ^limit, offset: ^offset)
   end
 end
