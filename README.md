@@ -20,7 +20,10 @@ After adding the plugin run
 ```
 $ asdf install
 ```
-
+remember to run this or the mix command won't work
+```
+$ asdf reshim
+```
 Assume you got docker install already, run this at project root:
 ```
 $ docker compose up -d
