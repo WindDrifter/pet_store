@@ -9,12 +9,22 @@ defmodule PetStore.Store.CafeFactory do
         juice = "#{Faker.Fruit.En.fruit()} Juice"
         %Cafe{
           item: "#{juice}",
-          item_name: "Maow Maow #{juice}",
+          item_name: "#{Faker.Cat.breed()} #{juice}",
           menu_type: "Drink",
-          add_ons: "Ice, Sugar",
+          add_ons: "Ice, Sugar, bubble, hot, cold",
           price: Decimal.new("3.50")
         }
+      end
 
+      def food_factory do
+        juice = "#{Faker.Food.En.dish()}"
+        %Cafe{
+          item: "#{juice}",
+          item_name: "#{Faker.Cat.breed()} #{juice}",
+          menu_type: "Food",
+          add_ons: "Meal, Spicy, Soup, Salad",
+          price: Decimal.new("3.50")
+        }
       end
     end
   end

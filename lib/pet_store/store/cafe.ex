@@ -7,8 +7,8 @@ defmodule PetStore.Store.Cafe do
   schema "store_cafe" do
     field :item, :string
     field :item_name, :string
-
     field :menu_type, :string
+    # available addons, seperated by commas
     field :add_ons, :string
     field :price, :decimal
 
