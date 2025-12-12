@@ -1,7 +1,9 @@
 defmodule PetStore.Store.Cafe do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
   alias PetStore.Store.Cafe
+  alias PetStore.Repo
   schema "store_cafe" do
     field :item, :string
     field :item_name, :string
@@ -24,11 +26,12 @@ defmodule PetStore.Store.Cafe do
   end
 
   def get_items_by_type(item_type, limit \\ 0, offset \\ 0) do
-    Cafe |> where([c], c.menu_type == ^item_type)  |> Repo.all(limit: ^limit, offset: ^offset)
+    from(c in Cafe, where: c.menu_type == ^item_type) |> Repo.all(limit: limit, offset: offset)
   end
 
   def get_item_by_name(item_name) do
-    Cafe |> where([c], c.item_name == ^item_name) |> Repo.one()
+        from(c in Cafe, where: c.item_name == ^item_name) |> Repo.one()
+
   end
 
 end
