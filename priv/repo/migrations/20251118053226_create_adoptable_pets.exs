@@ -17,6 +17,7 @@ defmodule PetStore.Repo.Migrations.CreateAdoptablePets do
 
       timestamps(type: :utc_datetime)
     end
+
     create index(:adoptable_pets, [:name, :birth_date, :animal_type], unique: true)
     create index(:adoptable_pets, [:animal_type])
     create index(:adoptable_pets, [:name])
